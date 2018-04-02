@@ -1,0 +1,19 @@
+App\Domain\User\User:
+  type: entity
+  table: users
+
+  id:
+    id:
+      type: integer
+      generator:
+        strategy: AUTO
+
+  fields:
+    name:
+      type: string
+      column: name
+      length: 255
+    email:
+      type: string
+      column: email
+      length: 255

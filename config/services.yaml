@@ -3,3 +3,8 @@
 parameters:
 
 services:
+
+    App\Controller\UserController:
+        public: true
+        bind:
+            $entityManager: '@doctrine.orm.entity_manager'
