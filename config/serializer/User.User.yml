@@ -1,0 +1,12 @@
+App\Domain\User\User:
+  exclusion_policy: ALL
+  virtual_properties:
+    id:
+      type: integer
+    name:
+      type: string
+      serialized_name: name
+    email:
+      type: string
+      serialized_name: email
+      groups: ['detail']

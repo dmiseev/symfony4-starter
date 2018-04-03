@@ -12,8 +12,16 @@ App\Domain\User\User:
     name:
       type: string
       column: name
-      length: 255
+      length: 64
     email:
       type: string
       column: email
-      length: 255
+      length: 64
+    deletedAt:
+      type: datetimetz
+      column: deleted_at
+      nullable: true
+
+  uniqueConstraints:
+    search_idx:
+      columns: [email, deleted_at]

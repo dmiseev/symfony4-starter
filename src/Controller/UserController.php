@@ -1,49 +1,38 @@
 <?php
+declare(strict_types=1);
 
 namespace App\Controller;
 
-use App\Domain\User\User;
-use Doctrine\ORM\EntityManagerInterface;
-use Symfony\Component\HttpFoundation\JsonResponse;
-use Symfony\Component\HttpFoundation\Request;
+use App\Domian\User\UserRepository;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
 /**
  * @Route("/users", name="users_")
  */
-class UserController
+class UserController extends BaseController
 {
     /**
-     * @var EntityManagerInterface
+     * @var UserRepository
      */
-    private $entityManager;
+    private $userRepository;
 
     /**
-     * @param EntityManagerInterface $entityManager
+     * @param UserRepository $userRepository
      */
-    public function __construct(EntityManagerInterface $entityManager)
+    public function __construct(UserRepository $userRepository)
     {
-        $this->entityManager = $entityManager;
+        $this->userRepository = $userRepository;
     }
 
     /**
      * @Route("", name="all", methods={"GET"})
      *
-     * @param Request $request
      * @return Response
      */
-    public function allAction(Request $request)
+    public function allAction()
     {
-        $users = $this->entityManager->createQueryBuilder()
-            ->select('u')
-            ->from(User::class, 'u')
-            ->getQuery()
-            ->getResult();
-
-        // TODO: need added serializer
-
-        return new JsonResponse($users);
+        return $this->json($this->userRepository->all());
     }
 
 }

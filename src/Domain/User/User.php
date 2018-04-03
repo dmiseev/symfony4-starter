@@ -1,6 +1,9 @@
 <?php
+declare(strict_types=1);
 
 namespace App\Domain\User;
+
+use Carbon\Carbon;
 
 class User
 {
@@ -18,6 +21,32 @@ class User
      * @var string
      */
     private $email;
+
+    /**
+     * @var Carbon|null
+     */
+    private $deletedAt;
+
+    /**
+     * @param string $name
+     * @param string $email
+     */
+    private function __construct(string $name, string $email)
+    {
+        $this->name = $name;
+        $this->email = $email;
+    }
+
+    /**
+     * @param string $name
+     * @param string $email
+     *
+     * @return User
+     */
+    public static function register(string $name, string $email): User
+    {
+        return new User($name, $email);
+    }
 
     /**
      * @return int
@@ -65,5 +94,21 @@ class User
     public function setEmail(string $email): void
     {
         $this->email = $email;
+    }
+
+    /**
+     * @return Carbon|null
+     */
+    public function deletedAt(): ?Carbon
+    {
+        return $this->deletedAt;
+    }
+
+    /**
+     * @return void
+     */
+    public function delete(): void
+    {
+        $this->deletedAt = new Carbon;
     }
 }

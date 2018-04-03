@@ -1,10 +1,14 @@
 # Put parameters here that don't need to change on each machine where the app is deployed
 # https://symfony.com/doc/current/best_practices/configuration.html#application-related-configuration
 parameters:
+    locale: 'en'
 
 services:
 
-    App\Controller\UserController:
-        public: true
-        bind:
-            $entityManager: '@doctrine.orm.entity_manager'
+    App\Infrastructure\Domain\Doctrine\DoctrineUserRepository: ~
+    App\Domain\User\UserRepository: '@App\Infrastructure\Domain\Doctrine\DoctrineUserRepository'
+
+#    App\Controller\UserController:
+#        autowire: true
+#        arguments:
+#            $userRepository: '@App\Domain\User\UserRepository'
