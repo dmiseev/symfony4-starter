@@ -23,3 +23,7 @@ services:
         resource: '../../src/Controller'
         public: true
         tags: ['controller.service_arguments']
+
+    App\Domain\:
+        resource: '../../src/Domain/*'
+        public: true
