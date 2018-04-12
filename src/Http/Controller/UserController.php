@@ -1,9 +1,10 @@
 <?php
 declare(strict_types=1);
 
-namespace App\Controller;
+namespace App\Http\Controller;
 
-use App\Domian\User\UserRepository;
+use App\Domain\User\UserNotFound;
+use App\Domain\User\UserRepository;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
@@ -35,4 +36,15 @@ class UserController extends BaseController
         return $this->json($this->userRepository->all());
     }
 
+    /**
+     * @Route("/{id}", name="byId", methods={"GET"})
+     *
+     * @param int $id
+     * @return Response
+     * @throws UserNotFound
+     */
+    public function byIdAction(int $id)
+    {
+        return $this->json($this->userRepository->byId($id));
+    }
 }

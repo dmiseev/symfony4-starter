@@ -5,7 +5,7 @@ namespace App\Infrastructure\Domain\Doctrine;
 
 use App\Domain\User\User;
 use App\Domain\User\UserNotFound;
-use App\Domian\User\UserRepository;
+use App\Domain\User\UserRepository;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\ORM\NonUniqueResultException;
 use Doctrine\ORM\NoResultException;

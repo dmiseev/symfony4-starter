@@ -2,7 +2,9 @@
 
 namespace App\Domain\Core;
 
-class EntityNotFound extends \Exception
+use Exception;
+
+class EntityNotFound extends Exception implements DomainExceptionInterface
 {
     protected $code = 404;
 }

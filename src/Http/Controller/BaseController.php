@@ -1,7 +1,7 @@
 <?php
 declare(strict_types=1);
 
-namespace App\Controller;
+namespace App\Http\Controller;
 
 use JMS\Serializer\SerializationContext;
 use JMS\Serializer\SerializerBuilder;

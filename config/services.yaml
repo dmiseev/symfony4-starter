@@ -5,10 +5,20 @@ parameters:
 
 services:
 
-    App\Infrastructure\Domain\Doctrine\DoctrineUserRepository: ~
+    App\Infrastructure\Domain\Doctrine\DoctrineUserRepository:
+        class: App\Infrastructure\Domain\Doctrine\DoctrineUserRepository
+        arguments:
+            $registry: '@doctrine'
+
     App\Domain\User\UserRepository: '@App\Infrastructure\Domain\Doctrine\DoctrineUserRepository'
 
-#    App\Controller\UserController:
-#        autowire: true
-#        arguments:
-#            $userRepository: '@App\Domain\User\UserRepository'
+    App\Http\Controller\UserController:
+        autowire: true
+        public: true
+        arguments:
+            $userRepository: '@App\Domain\User\UserRepository'
+
+    App\Http\EventListener\DomainExceptionListener:
+        class: App\Http\EventListener\DomainExceptionListener
+        tags:
+         - { name: kernel.event_listener, event: kernel.exception }
