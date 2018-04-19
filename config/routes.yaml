@@ -1,0 +1,3 @@
+v1:
+    prefix: /v1
+    resource: '../src/Http/Controller'
