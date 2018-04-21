@@ -13,12 +13,21 @@ services:
     App\Domain\User\UserRepository: '@App\Infrastructure\Domain\Doctrine\DoctrineUserRepository'
 
     App\Http\Controller\UserController:
-        autowire: true
         public: true
         arguments:
             $userRepository: '@App\Domain\User\UserRepository'
+
+    App\Http\Controller\AuthController:
+        public: true
+        arguments:
+            $userRepository: '@App\Domain\User\UserRepository'
+            $jwt: '@lexik_jwt_authentication.jwt_manager'
 
     App\Http\EventListener\DomainExceptionListener:
         class: App\Http\EventListener\DomainExceptionListener
         tags:
          - { name: kernel.event_listener, event: kernel.exception }
+
+    App\Security\Guard\JWTTokenAuthenticator:
+        class: App\Security\Guard\JWTTokenAuthenticator
+        parent: lexik_jwt_authentication.security.guard.jwt_token_authenticator

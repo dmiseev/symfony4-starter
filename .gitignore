@@ -5,3 +5,5 @@
 /vendor/
 
 .phpunit
+
+/config/jwt/*.pem

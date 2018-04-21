@@ -4,8 +4,9 @@ declare(strict_types=1);
 namespace App\Domain\User;
 
 use Carbon\Carbon;
+use Symfony\Component\Security\Core\User\UserInterface;
 
-class User
+class User implements UserInterface
 {
     /**
      * @var int
@@ -21,6 +22,11 @@ class User
      * @var string
      */
     private $email;
+
+    /**
+     * @var string
+     */
+    private $password;
 
     /**
      * @var Carbon|null
@@ -97,6 +103,22 @@ class User
     }
 
     /**
+     * @return string
+     */
+    public function password(): string
+    {
+        return $this->password;
+    }
+
+    /**
+     * @param string $password
+     */
+    public function setPassword(string $password): void
+    {
+        $this->password = $password;
+    }
+
+    /**
      * @return Carbon|null
      */
     public function deletedAt(): ?Carbon
@@ -110,5 +132,41 @@ class User
     public function delete(): void
     {
         $this->deletedAt = new Carbon;
+    }
+
+    /**
+     * @return array
+     */
+    public function getRoles()
+    {
+        return ['ROLE_USER'];
+    }
+
+    /**
+     * @return string
+     */
+    public function getPassword()
+    {
+        return $this->password;
+    }
+
+    /**
+     * @return string|null The salt
+     */
+    public function getSalt()
+    {
+        return null;
+    }
+
+    /**
+     * @return string
+     */
+    public function getUsername()
+    {
+        return $this->name();
+    }
+
+    public function eraseCredentials()
+    {
     }
 }

@@ -31,5 +31,12 @@
         <env name="SHELL_VERBOSITY" value="-1" />
         <env name="DATABASE_URL" value="pgsql://app_test:E1uo2FjHGh672k06@database-test:5432/app_test" />
         <!-- define your env variables for the test env here -->
+
+        <!-- ###+ lexik/jwt-authentication-bundle ### -->
+        <!-- Key paths should be relative to the project directory -->
+        <env name="JWT_PRIVATE_KEY_PATH" value="config/jwt/private.pem"/>
+        <env name="JWT_PUBLIC_KEY_PATH" value="config/jwt/public.pem"/>
+        <env name="JWT_PASSPHRASE" value="0f45a74391fd999f6c7060bbf2c1f4a1"/>
+        <!-- ###- lexik/jwt-authentication-bundle ### -->
     </php>
 </phpunit>
