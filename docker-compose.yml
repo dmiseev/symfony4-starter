@@ -33,12 +33,25 @@ services:
      POSTGRES_USER: app
      POSTGRES_DB: app
 
+ database-test:
+   image: postgres:9.6
+   ports:
+    - 5438:5432
+   volumes:
+    - data-test:/var/lib/postgresql/data
+   environment:
+     POSTGRES_PASSWORD: E1uo2FjHGh672k06
+     POSTGRES_USER: app_test
+     POSTGRES_DB: app_test
+
  php-fpm:
    image: dmiseev/php-fpm7.1
    depends_on:
     - database
+    - database-test
    links:
     - database
+    - database-test
    volumes:
     - .:/usr/local/src/app
    working_dir: /usr/local/src/app
@@ -47,3 +60,4 @@ services:
 
 volumes:
   data: {}
+  data-test: {}

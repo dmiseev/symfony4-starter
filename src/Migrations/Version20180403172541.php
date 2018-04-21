@@ -16,6 +16,7 @@ class Version20180403172541 extends AbstractMigration
         $this->abortIf($this->connection->getDatabasePlatform()->getName() !== 'postgresql', 'Migration can only be executed safely on \'postgresql\'.');
 
         $this->addSql('CREATE TABLE users (id INT NOT NULL, name VARCHAR(64) NOT NULL, email VARCHAR(64) NOT NULL, deleted_at TIMESTAMP(0) WITH TIME ZONE DEFAULT NULL, PRIMARY KEY(id))');
+        $this->addSql('CREATE SEQUENCE users_id_seq INCREMENT BY 1 MINVALUE 1 START 1');
         $this->addSql('CREATE UNIQUE INDEX search_idx ON users (email, deleted_at)');
     }
 

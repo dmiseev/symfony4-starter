@@ -4,26 +4,55 @@ parameters:
     # environment variables are not available yet.
     # You should not need to change this value.
     env(DATABASE_URL): ''
+    env(TEST_DATABASE_URL): ''
 
 doctrine:
     dbal:
-        # configure these for your database server
-        driver: 'pdo_pgsql'
-        server_version: '9.6'
-        default_table_options:
-            charset: utf8mb4
-            collate: utf8mb4_unicode_ci
+        default_connection: default
+        connections:
+            default:
+                # configure these for your database server
+                driver: 'pdo_pgsql'
+                server_version: '9.6'
+                default_table_options:
+                    charset: utf8mb4
+                    collate: utf8mb4_unicode_ci
 
-        # With Symfony 3.3, remove the `resolve:` prefix
-        url: '%env(resolve:DATABASE_URL)%'
+                # With Symfony 3.3, remove the `resolve:` prefix
+                url: '%env(resolve:DATABASE_URL)%'
+            testing:
+                # configure these for your database server
+                driver: 'pdo_pgsql'
+                server_version: '9.6'
+                default_table_options:
+                    charset: utf8mb4
+                    collate: utf8mb4_unicode_ci
+
+                # With Symfony 3.3, remove the `resolve:` prefix
+                url: '%env(resolve:TEST_DATABASE_URL)%'
     orm:
-        auto_generate_proxy_classes: '%kernel.debug%'
-        naming_strategy: doctrine.orm.naming_strategy.underscore
-        auto_mapping: true
-        mappings:
-            App:
-                is_bundle: false
-                type: yml
-                dir: '%kernel.project_dir%/config/doctrine'
-                prefix: 'App\Domain'
-                alias: App
+        default_entity_manager: default
+        entity_managers:
+            default:
+                connection: default
+#                auto_generate_proxy_classes: '%kernel.debug%'
+                naming_strategy: doctrine.orm.naming_strategy.underscore
+                auto_mapping: true
+                mappings:
+                    App:
+                        is_bundle: false
+                        type: yml
+                        dir: '%kernel.project_dir%/config/doctrine'
+                        prefix: 'App\Domain'
+                        alias: App
+            testing:
+                connection: testing
+#                auto_generate_proxy_classes: '%kernel.debug%'
+                naming_strategy: doctrine.orm.naming_strategy.underscore
+                mappings:
+                    App:
+                        is_bundle: false
+                        type: yml
+                        dir: '%kernel.project_dir%/config/doctrine'
+                        prefix: 'App\Domain'
+                        alias: App
