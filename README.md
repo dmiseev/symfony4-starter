@@ -17,5 +17,6 @@ dm-php bin/console doctrine:fixtures:load
 ### Testing
 
 ```ini
+dm-php bin/console doctrine:migrations:migrate --em=testing
 dm-phpunit --stop-on-failure
 ```

@@ -47,4 +47,19 @@ class UserController extends BaseController
     {
         return $this->json($this->userRepository->byId($id));
     }
+
+    /**
+     * @Route("/{id}", name="delete", methods={"DELETE"})
+     *
+     * @param int $id
+     * @return Response
+     * @throws UserNotFound
+     */
+    public function deleteAction(int $id)
+    {
+        $user = $this->userRepository->byId($id);
+        $this->userRepository->delete($user);
+
+        return $this->json([], Response::HTTP_NO_CONTENT);
+    }
 }
