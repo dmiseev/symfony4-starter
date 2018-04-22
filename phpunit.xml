@@ -39,4 +39,8 @@
         <env name="JWT_PASSPHRASE" value="0f45a74391fd999f6c7060bbf2c1f4a1"/>
         <!-- ###- lexik/jwt-authentication-bundle ### -->
     </php>
+
+    <listeners>
+        <listener class="Symfony\Bridge\PhpUnit\SymfonyTestsListener" />
+    </listeners>
 </phpunit>
