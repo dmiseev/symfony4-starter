@@ -37,6 +37,7 @@
         <env name="JWT_PRIVATE_KEY_PATH" value="config/jwt/private.pem"/>
         <env name="JWT_PUBLIC_KEY_PATH" value="config/jwt/public.pem"/>
         <env name="JWT_PASSPHRASE" value="0f45a74391fd999f6c7060bbf2c1f4a1"/>
+        <env name="JWT_TOKEN_TTL" value="3600"/>
         <!-- ###- lexik/jwt-authentication-bundle ### -->
     </php>
 

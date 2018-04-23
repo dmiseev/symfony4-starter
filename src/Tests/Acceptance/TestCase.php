@@ -28,7 +28,6 @@ abstract class TestCase extends WebTestCase
 
         $this->truncateTables();
         $this->loadFixtures();
-        // TODO: use test DB for testing
     }
 
     public function tearDown()
