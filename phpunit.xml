@@ -29,7 +29,7 @@
         <env name="APP_DEBUG" value="1" />
         <env name="APP_SECRET" value="s$cretf0rt3st" />
         <env name="SHELL_VERBOSITY" value="-1" />
-        <env name="DATABASE_URL" value="pgsql://app_test:E1uo2FjHGh672k06@database-test:5432/app_test" />
+        <env name="DATABASE_URL" value="pgsql://app:E1uoLAjHWHza2k9j@database:5432/app_test" />
         <!-- define your env variables for the test env here -->
 
         <!-- ###+ lexik/jwt-authentication-bundle ### -->

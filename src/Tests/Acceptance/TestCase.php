@@ -9,6 +9,7 @@ use Doctrine\ORM\EntityManager;
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Bundle\FrameworkBundle\Client;
+use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
 
 abstract class TestCase extends WebTestCase
 {
@@ -63,17 +64,17 @@ abstract class TestCase extends WebTestCase
      */
     protected function truncateTables()
     {
-        $entityManager = $this->entityManager();
-        $entityManager->getConnection()->getConfiguration()->setSQLLogger(null);
+        $connection = $this->entityManager()->getConnection();
+        $connection->getConfiguration()->setSQLLogger(null);
 
-        foreach ($entityManager->getConnection()->getSchemaManager()->listTableNames() as $tableNames) {
+        foreach ($connection->getSchemaManager()->listTableNames() as $tableNames) {
 
             if ($tableNames === 'migration_versions') {
                 continue;
             }
 
-            $entityManager->getConnection()->prepare("TRUNCATE TABLE {$tableNames}")->execute();
-            $entityManager->getConnection()->prepare("ALTER SEQUENCE {$tableNames}_id_seq RESTART WITH 1")->execute();
+            $connection->prepare("TRUNCATE TABLE {$tableNames}")->execute();
+            $connection->prepare("ALTER SEQUENCE {$tableNames}_id_seq RESTART WITH 1")->execute();
         }
     }
 
@@ -81,7 +82,10 @@ abstract class TestCase extends WebTestCase
     {
         $entityManager = $this->entityManager();
 
-        $fixture = new UserFixtures();
+        /** @var UserPasswordEncoderInterface $encoder */
+        $encoder = $this->client->getContainer()->get('security.password_encoder');
+
+        $fixture = new UserFixtures($encoder);
         $fixture->load($entityManager);
     }
 }

@@ -21,6 +21,8 @@ openssl rsa -pubout -in config/jwt/private.pem -out config/jwt/public.pem
 
 ### Testing
 
+Need exec docker-entrypoint-initdb.d/entrypoint.sh in database container.
+
 ```ini
 dm-php bin/console doctrine:migrations:migrate --em=testing
 dm-phpunit --stop-on-failure

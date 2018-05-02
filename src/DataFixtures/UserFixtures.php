@@ -7,25 +7,23 @@ use App\Domain\User\User;
 use Doctrine\Bundle\FixturesBundle\Fixture;
 use Doctrine\Common\DataFixtures\OrderedFixtureInterface;
 use Doctrine\Common\Persistence\ObjectManager;
-use Symfony\Component\DependencyInjection\ContainerAwareInterface;
-use Symfony\Component\DependencyInjection\ContainerInterface;
 use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
 
-class UserFixtures extends Fixture implements OrderedFixtureInterface, ContainerAwareInterface
+class UserFixtures extends Fixture implements OrderedFixtureInterface
 {
     const DEFAULT_PASSWORD = 'testpass';
 
     /**
-     * @var ContainerInterface
+     * @var UserPasswordEncoderInterface
      */
-    private $container;
+    private $encoder;
 
     /**
-     * {@inheritDoc}
+     * @param UserPasswordEncoderInterface $encoder
      */
-    public function setContainer(ContainerInterface $container = null)
+    public function __construct(UserPasswordEncoderInterface $encoder)
     {
-        $this->container = $container;
+        $this->encoder = $encoder;
     }
 
     public function load(ObjectManager $manager)
@@ -35,10 +33,8 @@ class UserFixtures extends Fixture implements OrderedFixtureInterface, Container
             User::register('Jack Green', 'jack.green@test.com')
         ];
 
-        $encoder = $this->container->get('security.password_encoder');
-
         foreach ($users as $user) {
-            $user->setPassword($encoder->encodePassword($user, self::DEFAULT_PASSWORD));
+            $user->setPassword($this->encoder->encodePassword($user, self::DEFAULT_PASSWORD));
             $manager->persist($user);
         }
 
