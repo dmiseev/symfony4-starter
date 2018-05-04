@@ -6,6 +6,7 @@ namespace App\Http\Controller;
 use App\Domain\User\UserNotFound;
 use App\Domain\User\UserRepository;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
 use Symfony\Component\Routing\Annotation\Route;
 
 /**
@@ -20,9 +21,12 @@ class UserController extends BaseController
 
     /**
      * @param UserRepository $userRepository
+     * @param TokenStorageInterface $tokenStorage
      */
-    public function __construct(UserRepository $userRepository)
+    public function __construct(UserRepository $userRepository, TokenStorageInterface $tokenStorage)
     {
+        parent::__construct($tokenStorage);
+
         $this->userRepository = $userRepository;
     }
 
@@ -34,6 +38,16 @@ class UserController extends BaseController
     public function allAction()
     {
         return $this->json($this->userRepository->all());
+    }
+
+    /**
+     * @Route("/me", name="me", methods={"GET"})
+     *
+     * @return Response
+     */
+    public function meAction()
+    {
+        return $this->json($this->user());
     }
 
     /**

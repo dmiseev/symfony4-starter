@@ -19,6 +19,14 @@ interface UserRepository
     public function byId(int $id);
 
     /**
+     * @param string $email
+     *
+     * @return User
+     * @throws UserNotFound
+     */
+    public function byEmail(string $email);
+
+    /**
      * @param User $user
      */
     public function store(User $user): void;

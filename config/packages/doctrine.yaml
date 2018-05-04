@@ -42,7 +42,7 @@ doctrine:
                     App:
                         is_bundle: false
                         type: yml
-                        dir: '%kernel.project_dir%/config/doctrine'
+                        dir: '%kernel.project_dir%/src/Application/Resources/mappings'
                         prefix: 'App\Domain'
                         alias: App
             testing:
@@ -53,6 +53,6 @@ doctrine:
                     App:
                         is_bundle: false
                         type: yml
-                        dir: '%kernel.project_dir%/config/doctrine'
+                        dir: '%kernel.project_dir%/src/Application/Resources/mappings'
                         prefix: 'App\Domain'
                         alias: App

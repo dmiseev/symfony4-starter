@@ -4,18 +4,28 @@ security:
         App\Domain\User\User: bcrypt
     # https://symfony.com/doc/current/security.html#where-do-users-come-from-user-providers
     providers:
-        in_memory: { memory: ~ }
+        entity_provider:
+            entity:
+                class: App\Domain\User\User
+                property: email
 
     firewalls:
-        login:
-            pattern:  ^/v1/login
+        token:
+            pattern:  ^/v1/token
             stateless: true
             anonymous: true
             form_login:
-                check_path:               /v1/login
-                success_handler:          lexik_jwt_authentication.handler.authentication_success
-                failure_handler:          lexik_jwt_authentication.handler.authentication_failure
+                check_path: /v1/token
+                username_parameter: email
+                password_parameter: password
+                success_handler: lexik_jwt_authentication.handler.authentication_success
+                failure_handler: lexik_jwt_authentication.handler.authentication_failure
                 require_previous_session: false
+
+        refresh:
+            pattern:  ^/v1/token/refresh
+            stateless: true
+            anonymous: true
 
         api:
             pattern:   ^/v1
@@ -25,5 +35,6 @@ security:
                     - lexik_jwt_authentication.jwt_token_authenticator
 
     access_control:
-        - { path: ^/v1/login, roles: IS_AUTHENTICATED_ANONYMOUSLY }
-        - { path: ^/v1,       roles: IS_AUTHENTICATED_FULLY }
+        - { path: ^/v1/token, roles: IS_AUTHENTICATED_ANONYMOUSLY }
+        - { path: ^/v1/token/refresh, roles: IS_AUTHENTICATED_ANONYMOUSLY }
+        - { path: ^/v1, roles: IS_AUTHENTICATED_FULLY }

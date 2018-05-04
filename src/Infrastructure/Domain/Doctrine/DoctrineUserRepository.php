@@ -53,6 +53,26 @@ class DoctrineUserRepository extends ServiceEntityRepository implements UserRepo
     }
 
     /**
+     * @param string $email
+     *
+     * @return User
+     * @throws NonUniqueResultException|UserNotFound
+     */
+    public function byEmail(string $email)
+    {
+        try {
+            return $this->createQueryBuilder('u')
+                ->where('u.email = :email')
+                ->setParameter('email', $email)
+                ->getQuery()
+                ->getSingleResult();
+
+        } catch (NoResultException $e) {
+            throw UserNotFound::fromEmail($email);
+        }
+    }
+
+    /**
      * @param User $user
      * @throws ORMException|OptimisticLockException
      */

@@ -15,4 +15,13 @@ final class UserNotFound extends EntityNotFound
     {
         return new UserNotFound("User with ID #{$id} not found.");
     }
+
+    /**
+     * @param string $email
+     * @return UserNotFound
+     */
+    public static function fromEmail(string $email): self
+    {
+        return new UserNotFound("User with email {$email} not found.");
+    }
 }

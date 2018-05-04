@@ -7,4 +7,4 @@ jms_serializer:
         directories:
             app:
                 namespace_prefix: "App\\Domain"
-                path: '%kernel.project_dir%/config/serializer'
+                path: '%kernel.project_dir%/src/Application/Resources/serializer'
