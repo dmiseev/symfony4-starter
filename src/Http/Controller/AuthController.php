@@ -30,27 +30,19 @@ class AuthController extends BaseController
     private $jwt;
 
     /**
-     * @var PreAuthenticationJWTUserToken
-     */
-    private $authenticator;
-
-    /**
      * @param UserRepository $userRepository
      * @param JWTTokenManagerInterface $jwt
-     * @param PreAuthenticationJWTUserToken $authenticator
      * @param TokenStorageInterface $tokenStorage
      */
     public function __construct(
         UserRepository $userRepository,
         JWTTokenManagerInterface $jwt,
-        PreAuthenticationJWTUserToken $authenticator,
         TokenStorageInterface $tokenStorage
     ) {
         parent::__construct($tokenStorage);
 
         $this->jwt = $jwt;
         $this->userRepository = $userRepository;
-        $this->authenticator = $authenticator;
     }
 
     /**
@@ -69,6 +61,7 @@ class AuthController extends BaseController
      */
     public function refreshAction(Request $request)
     {
+        exit;
 //        dump($this->jwt->decode($this->token()));exit;
         $preAuthToken = $this->authenticator->getCredentials();
         dump($preAuthToken);exit;

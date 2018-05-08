@@ -5,13 +5,17 @@ namespace App\Http\Controller;
 
 use App\Domain\User\User;
 use JMS\Serializer\SerializationContext;
-use JMS\Serializer\SerializerBuilder;
+use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+use Symfony\Component\DependencyInjection\ContainerAwareTrait;
+use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
 use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
 
-class BaseController
+class BaseController extends Controller
 {
+    use ContainerAwareTrait;
+
     /**
      * @var TokenStorageInterface
      */
@@ -29,28 +33,23 @@ class BaseController
      * @param $data
      * @param int $status
      * @param array $headers
-     * @param array $groups
+     * @param string[] $groups
      *
      * @return Response
      */
     protected function json($data, $status = Response::HTTP_OK, array $headers = [], array $groups = [])
     {
-        $serializer = SerializerBuilder::create()->build();
+        $serializer = $this->container->get('jms_serializer');
 
-//        if ($data instanceof LengthAwarePaginator) {
-//            $totalItems = $data->total();
-//            $data = $data->items();
-//        }
+        $serializationContext = SerializationContext::create()
+            ->enableMaxDepthChecks()
+            ->setGroups(array_merge(['Default'], $groups));
 
-        return new Response(
-            $serializer->serialize($data, 'json', SerializationContext::create()->setGroups(
-                array_merge(['Default'], $groups)
-            )),
+        return new JsonResponse(
+            $serializer->serialize($data, 'json', $serializationContext),
             $status,
-            array_merge([
-                'Content-Type' => 'application/json',
-                'X-Items-Count' => count($data)
-            ], $headers)
+            array_merge(['Content-Type' => 'application/json'], $headers),
+            true
         );
     }
 
